@@ -1,0 +1,26 @@
+name: Feature request / Đề xuất
+description: Propose a software improvement aligned with local-first archives.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What observable result would demonstrate completion?
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Local data and community boundary
+      description: Does this send data, contact a provider or change publication behavior?

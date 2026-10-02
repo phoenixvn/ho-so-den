@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Architecture and questions
+    url: https://github.com/realitechteam/ho-so-den/discussions
+    about: Discuss designs and ask questions in Vietnamese or English.
+  - name: Private security report
+    url: https://github.com/realitechteam/ho-so-den/security/advisories/new
+    about: Report vulnerabilities privately; do not post them as public bugs.

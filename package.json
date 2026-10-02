@@ -1,0 +1,28 @@
+{
+  "name": "ho-so-den",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "description": "Open-source case archive: self-hostable design preview, toward local-first archives and opt-in community contributions.",
+  "license": "AGPL-3.0-only",
+  "repository": { "type": "git", "url": "https://github.com/realitechteam/ho-so-den.git" },
+  "homepage": "https://realitechteam.github.io/ho-so-den/",
+  "bugs": { "url": "https://github.com/realitechteam/ho-so-den/issues" },
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/serve.mjs",
+    "dev": "npm run build && npm start",
+    "check": "node --check app.js && node --check article.js && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check scripts/release.mjs",
+    "check:license": "node scripts/verify-license.mjs",
+    "test": "npm run build && node --test tests/server.test.mjs",
+    "test:e2e": "playwright test",
+    "release:pack": "npm run build && node scripts/release.mjs",
+    "preview:screenshots": "npm run build && node scripts/capture-preview.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/be-vietnam-pro": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource/noto-serif": "5.3.0",
+    "@playwright/test": "1.63.0"
+  }
+}

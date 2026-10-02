@@ -1,0 +1,51 @@
+<!doctype html>
+<!-- Copyright (C) 2026 Ho So Den contributors. SPDX-License-Identifier: AGPL-3.0-only -->
+<html lang="vi" data-theme="paper">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e9">
+  <meta name="description" content="Hồ Sơ Đen — bản xem thử mã nguồn mở của thư viện hồ sơ local-first. Toàn bộ hồ sơ là hư cấu.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hồ Sơ Đen — Dấu vết không im lặng</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Bỏ qua điều hướng</a>
+  <header class="header">
+    <a class="brand" href="#"><span class="brand-mark">H<span>Đ</span></span><span>HỒ SƠ ĐEN<small>THƯ VIỆN CỦA NHỮNG DẤU VẾT</small></span></a>
+    <nav aria-label="Điều hướng chính"><a href="#archive" class="active">Thư viện</a><button data-action="principles">Nguyên tắc biên tập</button><button data-action="support">Duy trì thư viện</button></nav>
+    <div class="header-actions"><button id="theme-toggle" class="theme-toggle" aria-label="Bật Mực đêm" aria-pressed="false"><span aria-hidden="true">◐</span><span id="theme-label">Trang giấy</span></button><button class="login button-quiet" data-action="login">Đăng nhập <span>↗</span></button></div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <div id="library-view">
+    <section class="library-intro">
+      <div class="edition-line"><span>TỦ SÁCH MỞ / VIỆT NAM</span><span>ẤN BẢN THIẾT KẾ · II</span></div>
+      <div class="intro-layout"><div><div class="eyebrow"><span class="red-line"></span> GHI CHÉP ĐỂ KHÔNG LÃNG QUÊN</div><h1>Mỗi sự kiện.<br>Một <em>dấu vết.</em></h1><p>Một thư viện để đọc sâu, đối chiếu nguồn và lần theo lịch sử.<br>Tri thức chung bắt đầu từ những ghi chép có trách nhiệm.</p><a class="intro-link" href="#archive">Mở mục lục thư viện <span>↓</span></a></div><div class="notebook" aria-hidden="true"><div class="notebook-spine"></div><span class="notebook-top">THE OPEN CASE ARCHIVE</span><strong>Hồ Sơ<br>Đen.</strong><span class="notebook-rule"></span><em>Những điều được ghi lại<br>cần được đối chiếu.</em><span class="notebook-foot">TẬP I &nbsp; / &nbsp; VIỆT NAM</span></div></div>
+    </section>
+    <div class="demo-strip"><span class="tiny-label">BẢN XEM THỬ</span><p>Tất cả hồ sơ và tư liệu là <strong>nội dung hư cấu</strong> để trải nghiệm thiết kế. Chưa kết nối dịch vụ.</p><span class="desktop-only">SOLANA · IPFS · CRYPTOMUS</span></div>
+    <section class="featured-reading"><span class="eyebrow">HỒ SƠ ĐỌC THỬ</span><a href="#/ho-so/HS-0001/read"><span class="featured-code">01.</span><div><h2>Dòng tiền phía sau một dự án</h2><p>Mở một trang hồ sơ · Mục lục, chú thích nguồn và lịch sử phiên bản</p></div><span class="featured-arrow">↗</span></a><span class="margin-note">Đọc kỹ.<br>Đối chiếu chậm.</span></section>
+
+    <section class="archive" id="archive">
+      <div class="section-heading"><div><div class="eyebrow">MỤC LỤC / BỘ SƯU TẬP</div><h2>Kho hồ sơ<span class="count">06</span></h2></div><p>Đọc sâu hơn một dòng tiêu đề.</p></div>
+      <div class="archive-toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Tìm theo tên hồ sơ, mã hoặc chủ đề…" aria-label="Tìm kiếm hồ sơ"><kbd>/</kbd></label><label class="sort"><span>Sắp xếp</span><select id="sort" aria-label="Sắp xếp hồ sơ"><option value="newest">Mới cập nhật</option><option value="oldest">Cũ nhất</option><option value="sources">Nhiều nguồn nhất</option></select></label></div>
+      <div class="filter-row"><div class="filters" aria-label="Lọc chủ đề"><button class="selected" data-filter="all" aria-pressed="true">Tất cả <span>06</span></button><button data-filter="Kinh tế" aria-pressed="false">Kinh tế</button><button data-filter="Công nghệ" aria-pressed="false">Công nghệ</button><button data-filter="Môi trường" aria-pressed="false">Môi trường</button><button data-filter="Xã hội" aria-pressed="false">Xã hội</button></div><span class="result-count" id="result-count" aria-live="polite"></span></div>
+      <div id="case-grid" class="case-grid"></div>
+      <div class="archive-bottom"><span>Đang hiển thị bộ sưu tập thiết kế mẫu</span><button class="text-button" data-action="contribute">Đóng góp tư liệu <span>↗</span></button></div>
+    </section>
+
+    <section class="manifesto"><div class="manifesto-number">02 / NIỀM TIN TỪ DẤU VẾT</div><div class="manifesto-main"><h2>Không chỉ được kể lại.<br><span>Còn có thể đối chiếu.</span></h2><div class="trust-grid"><article><span class="trust-symbol">[01]</span><h3>Nguồn dẫn rõ ràng</h3><p>Mỗi khẳng định gắn với tài liệu. Phân biệt sự kiện, lời khai và nhận định.</p></article><article><span class="trust-symbol">[02]</span><h3>Lịch sử minh bạch</h3><p>Đính chính bằng phiên bản mới. Theo dõi nội dung đã thay đổi và lý do.</p></article><article><span class="trust-symbol">[03]</span><h3>Xác minh trên Solana</h3><p>Đối chiếu dấu vết công bố. Hash khớp không đồng nghĩa nội dung là sự thật.</p></article></div></div></section>
+
+    <section class="support"><div><div class="eyebrow">GIỮ CHO KHO LƯU TRỮ TIẾP TỤC</div><h2>Một ký ức chung.<br>Một phần đóng góp của bạn.</h2><p>Đồng hành cùng việc số hóa, kiểm chứng và lưu giữ tư liệu.</p></div><div class="support-action"><button class="button-primary" data-action="support">Ủng hộ kho lưu trữ <span>↗</span></button><span>CRYPTO PAYMENTS BY <strong>Cryptomus</strong></span></div></section>
+    </div>
+    <div id="article-view" hidden></div>
+  </main>
+  <footer><a class="footer-brand" href="#">HỒ SƠ ĐEN<span>Ghi chép để không lãng quên.</span></a><p>Pre-alpha · Tư liệu minh họa · © 2026 Hồ Sơ Đen contributors</p><div class="footer-links"><a href="https://github.com/realitechteam/ho-so-den" rel="noreferrer">Mã nguồn ↗</a><a href="LICENSE">AGPL-3.0</a><button class="text-button" data-action="license">Giấy phép & quyền riêng tư</button></div></footer>
+
+  <dialog id="modal" aria-labelledby="modal-title"><div class="modal-top"><span class="eyebrow">HỒ SƠ ĐEN / PREVIEW</span><button id="close-modal" class="close" aria-label="Đóng hộp thoại">×</button></div><div id="modal-content"></div></dialog>
+  <script src="article.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

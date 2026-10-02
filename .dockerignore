@@ -1,0 +1,14 @@
+*
+!Dockerfile
+!package.json
+!package-lock.json
+!index.html
+!app.js
+!article.js
+!styles.css
+!wiki.css
+!LICENSE
+!NOTICE
+!THIRD_PARTY_NOTICES.md
+!scripts/
+!scripts/**
