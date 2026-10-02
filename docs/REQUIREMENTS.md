@@ -1,4 +1,4 @@
-# Đối chiếu yêu cầu — v0.1.0-alpha.1
+# Đối chiếu yêu cầu — v0.1.0-alpha.2
 
 ## Kết luận
 

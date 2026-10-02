@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-alpha.2 — Repository ownership and publishing links
+
+### Changed
+- Project stewardship, source links, contribution links and Pages URL now target `phoenixvn/ho-so-den`.
+- Updated distribution metadata and self-hosting instructions for the new location.
+- Preserved the original release/history; this remains a design preview with the same functional limitations.
+
 ## 0.1.0-alpha.1 — Open-source design preview
 
 ### Added

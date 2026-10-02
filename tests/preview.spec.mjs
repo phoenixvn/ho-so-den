@@ -122,6 +122,6 @@ test('missing dossier recovers to the library and footer exposes source/license'
   await expect(page.locator('.empty-route')).toBeVisible();
   await page.locator('.empty-route a').click();
   await expect(page.locator('#search')).toBeVisible();
-  await expect(page.locator('.footer-links a').first()).toHaveAttribute('href', 'https://github.com/realitechteam/ho-so-den');
+  await expect(page.locator('.footer-links a').first()).toHaveAttribute('href', 'https://github.com/phoenixvn/ho-so-den');
   await expect(page.locator('.footer-links a').nth(1)).toHaveAttribute('href', 'LICENSE');
 });

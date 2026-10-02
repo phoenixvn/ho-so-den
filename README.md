@@ -2,9 +2,9 @@
 
 **Thư viện của những dấu vết. Mã nguồn mở. Hướng đến local-first.**
 
-[Xem preview](https://realitechteam.github.io/ho-so-den/) · [English](docs/README.en.md) · [Tự chạy](docs/SELF_HOSTING.md) · [Đóng góp mã nguồn](CONTRIBUTING.md) · [Lộ trình](ROADMAP.md)
+[Xem preview](https://phoenixvn.github.io/ho-so-den/) · [English](docs/README.en.md) · [Tự chạy](docs/SELF_HOSTING.md) · [Đóng góp mã nguồn](CONTRIBUTING.md) · [Lộ trình](ROADMAP.md)
 
-> **v0.1.0-alpha.1 — design preview / pre-alpha.** Repo hiện là bản xem thử có thể tự host, không phải hệ thống quản lý hồ sơ hoàn chỉnh. Chưa có database, upload, tài khoản thật, push cộng đồng, thanh toán hoặc blockchain. Mọi hồ sơ, nguồn dẫn và số liệu đều hư cấu. Đọc [đối chiếu yêu cầu](docs/REQUIREMENTS.md) trước khi đánh giá khả năng triển khai.
+> **v0.1.0-alpha.2 — design preview / pre-alpha.** Repo hiện là bản xem thử có thể tự host, không phải hệ thống quản lý hồ sơ hoàn chỉnh. Chưa có database, upload, tài khoản thật, push cộng đồng, thanh toán hoặc blockchain. Mọi hồ sơ, nguồn dẫn và số liệu đều hư cấu. Đọc [đối chiếu yêu cầu](docs/REQUIREMENTS.md) trước khi đánh giá khả năng triển khai.
 
 ## Tầm nhìn
 
@@ -32,7 +32,7 @@ Không có analytics, tracking pixel, font CDN hoặc kết nối cộng đồng
 Yêu cầu Git, Docker Engine/Desktop đang chạy và Docker Compose v2.
 
 ```sh
-git clone https://github.com/realitechteam/ho-so-den.git
+git clone https://github.com/phoenixvn/ho-so-den.git
 cd ho-so-den
 docker compose up -d --build
 ```
@@ -91,8 +91,8 @@ LICENSE                          GNU AGPL v3 đầy đủ
 
 ## Tham gia cộng đồng
 
-- Báo lỗi và đề xuất qua [Issues](https://github.com/realitechteam/ho-so-den/issues).
-- Thảo luận kiến trúc qua [Discussions](https://github.com/realitechteam/ho-so-den/discussions).
+- Báo lỗi và đề xuất qua [Issues](https://github.com/phoenixvn/ho-so-den/issues).
+- Thảo luận kiến trúc qua [Discussions](https://github.com/phoenixvn/ho-so-den/discussions).
 - Đọc [CONTRIBUTING](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), [Governance](GOVERNANCE.md).
 - Vấn đề bảo mật: [SECURITY.md](SECURITY.md); không đăng dữ liệu nhạy cảm vào issue công khai.
 - GitHub Issues/PRs là nơi phát triển phần mềm, **không phải nơi gửi hồ sơ vụ việc thật**.

@@ -2,9 +2,9 @@
 
 **Open source. Self-hostable preview. Working toward local-first archives.**
 
-[Vietnamese README](../README.md) · [Live preview](https://realitechteam.github.io/ho-so-den/) · [Roadmap](../ROADMAP.md)
+[Vietnamese README](../README.md) · [Live preview](https://phoenixvn.github.io/ho-so-den/) · [Roadmap](../ROADMAP.md)
 
-Current release: **0.1.0-alpha.1**, an interactive design preview. All records,
+Current release: **0.1.0-alpha.2**, an interactive design preview. All records,
 sources and legal statuses are fictional. There is no persistent archive,
 real authentication, upload API, community sync, payment processing or blockchain
 integration yet. Self-hosting currently means hosting this preview.
@@ -12,7 +12,7 @@ integration yet. Self-hosting currently means hosting this preview.
 ## Run
 
 ```sh
-git clone https://github.com/realitechteam/ho-so-den.git
+git clone https://github.com/phoenixvn/ho-so-den.git
 cd ho-so-den
 docker compose up -d --build
 ```

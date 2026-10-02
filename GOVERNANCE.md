@@ -2,7 +2,7 @@
 
 ## Maintainers
 
-The initial repository steward is **@realitechteam**. Contributors retain
+The repository steward is **@phoenixvn**. Contributors retain
 copyright over their contributions. Maintainers manage releases, review access,
 roadmap decisions and community moderation; they do not gain ownership of users'
 privately stored archives.

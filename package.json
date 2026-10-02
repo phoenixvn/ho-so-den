@@ -1,12 +1,12 @@
 {
   "name": "ho-so-den",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "private": true,
   "description": "Open-source case archive: self-hostable design preview, toward local-first archives and opt-in community contributions.",
   "license": "AGPL-3.0-only",
-  "repository": { "type": "git", "url": "https://github.com/realitechteam/ho-so-den.git" },
-  "homepage": "https://realitechteam.github.io/ho-so-den/",
-  "bugs": { "url": "https://github.com/realitechteam/ho-so-den/issues" },
+  "repository": { "type": "git", "url": "https://github.com/phoenixvn/ho-so-den.git" },
+  "homepage": "https://phoenixvn.github.io/ho-so-den/",
+  "bugs": { "url": "https://github.com/phoenixvn/ho-so-den/issues" },
   "engines": { "node": ">=22" },
   "scripts": {
     "build": "node scripts/build.mjs",

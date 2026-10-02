@@ -9,7 +9,7 @@ preview to authenticate users, protect private case files or process payments.
 ## Reporting a vulnerability
 
 Use GitHub's private vulnerability reporting:
-https://github.com/realitechteam/ho-so-den/security/advisories/new
+https://github.com/phoenixvn/ho-so-den/security/advisories/new
 
 Include the affected commit/version, reproduction steps using fictional data,
 impact and suggested mitigation. Do not attach real case records, credentials,

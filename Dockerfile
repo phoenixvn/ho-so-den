@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM node:24-alpine AS runtime
 LABEL org.opencontainers.image.title="Ho So Den - design preview" \
-      org.opencontainers.image.source="https://github.com/realitechteam/ho-so-den" \
+      org.opencontainers.image.source="https://github.com/phoenixvn/ho-so-den" \
       org.opencontainers.image.licenses="AGPL-3.0-only"
 WORKDIR /app
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=8080

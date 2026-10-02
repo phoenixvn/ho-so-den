@@ -9,7 +9,7 @@ tự tạo những tính năng đó. Không đưa file cá nhân vào thư mục
 ## Docker Compose
 
 ```sh
-git clone https://github.com/realitechteam/ho-so-den.git
+git clone https://github.com/phoenixvn/ho-so-den.git
 cd ho-so-den
 docker compose up -d --build
 docker compose ps
