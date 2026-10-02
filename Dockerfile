@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-FROM node:24-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --no-audit --no-fund
@@ -7,7 +7,7 @@ COPY index.html app.js article.js styles.css wiki.css LICENSE NOTICE THIRD_PARTY
 COPY scripts/ ./scripts/
 RUN npm run build
 
-FROM node:24-alpine AS runtime
+FROM node:26-alpine AS runtime
 LABEL org.opencontainers.image.title="Ho So Den - design preview" \
       org.opencontainers.image.source="https://github.com/realitechteam/ho-so-den" \
       org.opencontainers.image.licenses="AGPL-3.0-only"
