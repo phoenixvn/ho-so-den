@@ -16,8 +16,9 @@ và phát hành. Không lấy riêng version string hoặc dấu checkbox làm b
   `v0.1.0-alpha.2` (design preview). Chưa tạo tag/release `0.2` hoặc `0.3`.
 - Preview public: https://phoenixvn.github.io/ho-so-den/ — chỉ `dist/`, không có API,
   database, archive riêng hoặc receiver community chạy trên GitHub Pages.
-- Các thay đổi local/community đang được đóng gói vào checkpoint source mới;
-  xem phần bằng chứng phía dưới và remote CI để xác định trạng thái tích hợp.
+- Source checkpoint local/community + AI handoff đã push lên `main` tại
+  [`b3614d8`](https://github.com/phoenixvn/ho-so-den/commit/b3614d805d81ae9ed87e98055750fbfccc919c99).
+  CI và static Pages của commit này đã thành công; xem evidence dưới đây.
 
 ## 2. Những quyết định đã chốt
 
@@ -96,12 +97,24 @@ và phát hành. Không lấy riêng version string hoặc dấu checkbox làm b
   restart giữ dữ liệu, peer HTTP alias trong network hoạt động, gửi–duyệt–publish–refresh đạt.
 - Các test dùng fixture và thư mục/project ngẫu nhiên; không dùng archive thật.
 
-Đây là evidence của implementation trước push; không thay thế kết quả CI của commit
-remote. Checkpoint tích hợp sẽ ghi source hash/run URL sau khi thực sự hoàn tất.
+### Checkpoint tích hợp đã xác nhận — 2026-10-03
+
+- Source commit: [`b3614d8`](https://github.com/phoenixvn/ho-so-den/commit/b3614d805d81ae9ed87e98055750fbfccc919c99), đã push vào `origin/main`.
+- [CI run 37093070713](https://github.com/phoenixvn/ho-so-den/actions/runs/37093070713): **success**;
+  Node 22, Node 24, Chromium browser tests và hai-instance Docker smoke đều đạt.
+- [Publish preview run 37093070729](https://github.com/phoenixvn/ho-so-den/actions/runs/37093070729): **success**.
+- Đã mở preview HTTPS bằng trình duyệt và kiểm tra home/dossier, `local.html`,
+  `community.html`: HTTP 200, không lỗi JS, các trang hướng dẫn static không gọi
+  private API. Đây không phải bằng chứng đã deploy backend lên Internet.
+- `npm run check:license`: license khớp bản SPDX AGPL-3.0-only; `npm audit`: không
+  có advisory đã biết tại thời điểm kiểm tra, không phải cam kết an toàn vĩnh viễn.
+- Bản cập nhật sổ tiến độ sau checkpoint chỉ thay docs, không đổi runtime đã test.
+  Với các commit tiếp theo, xem CI gắn với commit đó thay vì suy rộng evidence cũ.
 
 ### Release/deploy distinction
 
-- Đẩy source lên `main` sẽ chạy CI Node 22/24, browser, Docker và Pages workflow.
+- Source checkpoint đã được push và preview-deployed. Các push `main` tiếp theo
+  tiếp tục chạy CI Node 22/24, browser, Docker và Pages workflow.
 - Pages chỉ cập nhật giao diện tĩnh; `local.html`/`community.html` trên Pages giải
   thích cách tự host, không gọi backend của người truy cập.
 - Chưa yêu cầu tạo tag/release mới ở checkpoint này. Không tự bump maturity.
