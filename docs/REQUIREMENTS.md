@@ -1,42 +1,53 @@
-# Đối chiếu yêu cầu — v0.1.0-alpha.2
+# Đối chiếu yêu cầu — 0.3.0-alpha.1 (development)
 
 ## Kết luận
 
-**Đủ phạm vi phát hành mã nguồn mở và public design preview. Chưa đạt yêu cầu
-nền tảng local-first/community production.** Các mục “thiết kế” không được tính
-là đã triển khai.
+**Đã có local core và luồng đóng góp–duyệt–xuất bản giữa hai instance SQLite,
+một quản trị viên mỗi bên. Chưa đủ phạm vi production toàn nền tảng.** Website Pages tiếp
+tục là preview tĩnh, không được nhầm với kho local.
 
-## Đã triển khai trong release
+## Đã triển khai
 
-- UI thư viện, hồ sơ ba cột, hai theme, tìm kiếm và route có thể mở trực tiếp.
-- Nguồn/lịch sử/thảo luận/xác minh ở mức fixture và tương tác demo.
-- Chạy preview bằng Node hoặc Docker; tài nguyên và font tại chỗ sau khi build.
-- Không tự gửi dữ liệu hồ sơ/ghi chú, không analytics hoặc remote fonts.
-- Giấy phép AGPL đầy đủ, notices, tài liệu cộng đồng và lộ trình.
-- Bộ kiểm thử HTTP và browser; cấu hình CI và GitHub Pages.
+- UI hai theme, kho preview và giao diện quản trị local riêng.
+- Thiết lập quản trị viên một lần, password hash, phiên đăng nhập/logout thật.
+- SQLite schema v2/WAL, CRUD hồ sơ, nguồn và lịch sử snapshot; migration v1 → v2.
+- Xung đột revision không tự ghi đè; tìm theo tên/tóm tắt/chủ đề.
+- Upload tệp riêng trên ổ đĩa, hash SHA-256, download có xác thực, xóa tệp/hồ sơ.
+- Tồn tại qua restart; Docker persistent volume.
+- Backup portable gồm hồ sơ/nguồn/lịch sử/tệp hiện tại; restore vào kho trống,
+  kiểm tra cấu trúc, version và checksum, không thay tài khoản của instance đích.
+- Host/origin/CSRF checks, session token hash và login throttling.
+- Mã nguồn mở AGPL, font tại chỗ, không analytics hay tự gửi dữ liệu.
+- Kết nối peer do admin cấu hình, khóa đóng góp có thể thu hồi.
+- Chọn tệp/body/nguồn, tạo bản sao cố định, xem trước và xác nhận hash trước khi gửi.
+- Tiếp nhận riêng, idempotent retry, status chỉ thuộc khóa người gửi.
+- Duyệt có revision check, biên tập bản riêng, xuất bản bằng xác nhận thứ hai,
+  public reader và rút lại; không ghi đè local.
 
-## Chưa đáp ứng — chặn beta dữ liệu thật
+## Giới hạn local alpha
 
-- **Kho local bền vững:** chưa có SQLite, CRUD hồ sơ hoặc lưu tệp trên ổ đĩa.
-- **Thiết lập ban đầu:** chưa có local admin, session hoặc quyền truy cập thật.
-- **Sao lưu/phục hồi:** chưa có export/import kho hồ sơ hoặc thử restore.
-- **Push tự nguyện:** chưa có định dạng gói thực thi, upload, retry hoặc trạng thái nhận.
-- **Máy chủ cộng đồng:** chưa có PostgreSQL, OTP thật, reviewer và hàng đợi duyệt.
-- **Biên tập/đính chính:** chỉ có ví dụ tĩnh, chưa lưu được lịch sử thay đổi.
-- **Tệp/video:** chưa có quét tệp, chuyển mã, che dữ liệu hoặc signed URLs.
-- **Solana/IPFS:** chưa có program, key management, indexer, CID hoặc pinning thật.
-- **Cryptomus:** chưa có merchant integration, signed webhook hoặc đối soát.
-- **NFT:** chưa triển khai.
+- Một quản trị viên, một process cho mỗi data directory; chưa có phân quyền nhóm.
+- Tệp 25 MiB; backup trình duyệt 100 MiB JSON / 60 MiB tư liệu / 10.000 mục mỗi loại.
+- Chưa quét mã độc, redaction, OCR hoặc chuyển mã/phát video.
+- Snapshot lưu nội dung/nguồn; không khôi phục tệp đã xóa từ lịch sử.
+- Portable backup không mã hóa, không chứa credentials. Backup toàn instance là
+  sao chép filesystem khi dừng server, chưa có UI phục hồi volume.
+- NAS/ARM64 chưa được nghiệm thu; chưa có reset password qua email.
 
-## Tiêu chí nghiệm thu các bản tiếp theo
+## Chưa đáp ứng — phần cộng đồng
 
-1. Local: cài độc lập → tạo hồ sơ/tệp → restart → vẫn còn dữ liệu → backup/restore.
-2. Contribution: chọn đúng tệp → xem trước → xác nhận → retry an toàn → duyệt riêng.
-3. Publication: xuất bản bản được duyệt → trả link → local không bị ghi đè → đính chính.
-4. Provenance: tạo manifest → đối chiếu hash/phiên bản → xử lý giao dịch lỗi/thu hồi.
-5. Funding: tạo invoice thật → xác minh webhook → chống xử lý trùng → đối soát trạng thái.
+- PostgreSQL/object storage cộng đồng, OTP email thật, vai trò contributor/reviewer.
+- Upload tiếp tục theo chunk, key rotation, retention/purge và quota production.
+- Nhiều reviewer, kháng nghị/đính chính liên kết phiên bản công bố, sửa nguồn trong review UI.
+- Solana program, indexer, IPFS pinning và xác minh công khai.
+- Cryptomus invoice/webhook/đối soát, NFT người bảo trợ.
 
-## Kiểm tra release có thể lặp lại
+## Bằng chứng kiểm tra
+
+`npm test`: HTTP preview + local API, bao gồm auth, CSRF, private download,
+restart, revision conflict, backup/restore sang instance mới, backup hỏng, xóa
+blob dùng chung, logout và throttling. `npm run test:e2e`: các luồng preview và
+local từ first-run đến tạo/sửa/upload/backup/restore trên trình duyệt.
 
 ```sh
 npm ci
@@ -44,9 +55,10 @@ npm run check
 npm test
 npx playwright install chromium
 npm run test:e2e
-docker compose config
 docker compose up -d --build --wait
 ```
 
-Kết quả CI gắn với commit là bằng chứng cho lần kiểm tra tương ứng. Không suy ra
-khả năng chạy NAS/ARM64 hoặc độ an toàn backend từ việc test preview thành công.
+Luồng hai instance đã được kiểm thử cả API và browser: chọn gói, xem trước, gửi,
+retry, duyệt riêng, công bố, nhận lại trạng thái/link và rút lại. Test còn kiểm tra
+khóa khác không xem được trạng thái, thu hồi khóa, payload sai hash và peer redirect.
+Tính năng production chưa có không được suy ra từ các bài kiểm tra alpha này.

@@ -1,0 +1,13 @@
+---
+description: Shared Hồ Sơ Đen agent rules, local-first boundaries and checkpoint workflow
+alwaysApply: true
+---
+
+# Shared project guidance
+
+Read and follow the root [AGENTS.md](../../AGENTS.md) for every task.
+Start with [PROJECT_STATUS.md](../../docs/PROJECT_STATUS.md), then the linked
+development workflow and product lifecycle documents.
+
+This rule is a pointer, not a separate policy. Keep shared instructions in
+`AGENTS.md`; do not duplicate or contradict them in editor-specific rules.

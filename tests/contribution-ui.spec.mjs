@@ -1,0 +1,87 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+import { test, expect } from '@playwright/test';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { createLocalServer } from '../scripts/local.mjs';
+
+test('two-instance UI: pair, select, confirm, privately approve, publish, poll, withdraw', async ({ context }, testInfo) => {
+  const servers = [], directories = [], errors = [];
+  const create = async mode => {
+    const directory = await mkdtemp(join(tmpdir(), 'hsd-community-ui-')); directories.push(directory);
+    const server = await createLocalServer({ dataDirectory: directory, mode }); servers.push(server);
+    await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+    const page = await context.newPage(); page.on('pageerror', error => errors.push(error.message));
+    const origin = `http://127.0.0.1:${server.address().port}`;
+    await page.goto(origin);
+    await page.locator('#local-username').fill('admin');
+    await page.locator('#local-password').fill('fictional-community-ui-password');
+    await page.locator('#auth-submit').click();
+    await expect(page.locator('#local-workspace')).toBeVisible();
+    return { page, origin };
+  };
+  try {
+    const receiver = await create('community'), sender = await create('local');
+    const r = receiver.page, s = sender.page;
+    await r.locator('#contribution-nav').click();
+    await r.locator('#new-connection').click();
+    await r.locator('#key-label').fill('Contributor in local UI test');
+    await r.locator('#key-form button').click();
+    await expect(r.locator('#issued-key')).toBeVisible();
+    const secret = await r.locator('#issued-key').inputValue();
+    await r.keyboard.press('Escape');
+    await s.locator('#contribution-nav').click(); await s.locator('#new-connection').click();
+    await s.locator('#peer-label').fill('Community fixture'); await s.locator('#peer-origin').fill(receiver.origin); await s.locator('#peer-secret').fill(secret);
+    await s.locator('#connection-form button').click();
+    await expect(s.locator('#peer-list')).toContainText('Community fixture');
+    await s.locator('#contribution-view .local-back').click();
+    await s.locator('#new-record').click();
+    await s.locator('#edit-title').fill('Original local title'); await s.locator('#edit-summary').fill('Summary chosen for contribution'); await s.locator('#edit-body').fill('Private notebook omitted from package');
+    await s.locator('#record-form button').click();
+    await s.locator('#upload-file').setInputFiles({ name: 'selected.txt', mimeType: 'text/plain', buffer: Buffer.from('selected fixture') });
+    await s.locator('#upload-form button').click(); await expect(s.locator('.attachment-row')).toHaveCount(1);
+    await s.locator('#contribute-record').click();
+    await expect(s.locator('[name="package-file"]')).not.toBeChecked();
+    await expect(s.locator('#include-body')).not.toBeChecked();
+    await s.locator('[name="package-file"]').check(); await s.locator('#package-rights').fill('Fictional test data owned by the contributor.');
+    await s.locator('#prepare-form button').click();
+    await expect(s.locator('#local-dialog-content')).toContainText('selected.txt');
+    await expect(s.locator('#local-dialog-content')).not.toContainText('Private notebook omitted');
+    await r.reload();
+    await expect(r.locator('#contribution-list')).toContainText('Chưa có gói');
+    await s.locator('#send-package-confirm').check(); await s.locator('#send-package-form button').click();
+    await expect(s.locator('#contribution-list')).toContainText('Chờ duyệt riêng');
+    await r.reload(); await r.locator('[data-open-package]').click();
+    await r.locator('#review-title').fill('Community edited title'); await r.locator('#review-feedback').fill('Reviewed the selected fixture.');
+    await r.locator('[data-decision="approved"]').click();
+    await expect(r.locator('#contribution-list')).toContainText('Đã duyệt · chưa công khai');
+    const reader = await context.newPage(); reader.on('pageerror', error => errors.push(error.message));
+    await reader.goto(`${receiver.origin}/community.html`);
+    await expect(reader.locator('#public-content')).toContainText('Chưa có hồ sơ công bố');
+    await r.locator('[data-open-package]').click(); await r.locator('#review-feedback').fill('Release the reviewed fixture.'); await r.locator('#publish-confirm').check();
+    await r.locator('[data-decision="published"]').click();
+    await expect(r.locator('#contribution-list')).toContainText('Đã công bố');
+    await s.locator('[data-refresh-package]').click();
+    await expect(s.locator('#contribution-list')).toContainText('Đã công bố');
+    await expect(s.locator('#contribution-list .source-link')).toHaveAttribute('href', new RegExp(receiver.origin));
+    await reader.reload(); await reader.locator('#public-content .local-row a').click();
+    await expect(reader.locator('#public-content h1')).toHaveText('Community edited title');
+    await expect(reader.locator('#public-content')).not.toContainText('Private notebook omitted');
+    await expect(reader.locator('.attachment-row a')).toContainText('selected.txt');
+    await s.locator('#contribution-view .local-back').click();
+    await expect(s.locator('.local-row h2')).toHaveText('Original local title');
+    await r.locator('[data-open-package]').click();
+    await r.setViewportSize({ width: 390, height: 844 });
+    expect(await r.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await r.screenshot({ path: testInfo.outputPath('community-review.png') });
+    await r.locator('#review-feedback').fill('Withdraw the public fixture.'); await r.locator('[data-decision="withdrawn"]').click();
+    await expect(r.locator('#contribution-list')).toContainText('Đã rút lại');
+    await reader.reload(); await expect(reader.locator('#public-error')).toContainText('đã rút lại');
+    expect(errors).toEqual([]);
+    await reader.close(); await r.close(); await s.close();
+  } finally {
+    for (const page of context.pages()) await page.goto('about:blank');
+    for (const server of servers) await new Promise(resolve => server.close(resolve));
+    for (const directory of directories) await rm(directory, { recursive: true, force: true });
+  }
+});

@@ -8,7 +8,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const out = resolve(root, 'dist');
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
-for (const name of ['index.html', 'app.js', 'article.js', 'styles.css', 'wiki.css', 'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md']) {
+for (const name of ['index.html', 'app.js', 'article.js', 'styles.css', 'wiki.css', 'local.html', 'local.js', 'local.css', 'runtime.js', 'contribution-ui.js', 'community.html', 'community.js', 'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md']) {
   await cp(join(root, name), join(out, name));
 }
 

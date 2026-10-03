@@ -47,8 +47,4 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - run: docker compose config --quiet
-      - run: docker compose up -d --build --wait --wait-timeout 120
-      - run: curl --fail http://127.0.0.1:8080/healthz
-      - run: curl --fail http://127.0.0.1:8080/LICENSE
-      - if: always()
-        run: docker compose logs && docker compose down
+      - run: node tests/docker-smoke.mjs --community

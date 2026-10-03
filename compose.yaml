@@ -1,10 +1,12 @@
-# Self-hostable PREVIEW only: no database, uploads, accounts or community sync yet.
+# Private local archive. Optional explicit community connection; email OTP/payments/Web3 unconnected.
 services:
-  preview:
+  archive:
     build: .
-    image: ho-so-den:0.1.0-alpha.2
+    image: ho-so-den:0.3.0-alpha.1
     ports:
       - "127.0.0.1:${PREVIEW_PORT:-8080}:8080"
+    volumes:
+      - archive-data:/app/data
     init: true
     read_only: true
     cap_drop:
@@ -13,3 +15,5 @@ services:
       - no-new-privileges:true
     pids_limit: 100
     restart: unless-stopped
+volumes:
+  archive-data:

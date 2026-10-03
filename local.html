@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Copyright (C) 2026 Ho So Den contributors. SPDX-License-Identifier: AGPL-3.0-only -->
+<html lang="vi" data-theme="paper">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow"><meta name="referrer" content="no-referrer">
+  <title>Kho local — Hồ Sơ Đen</title>
+  <link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="wiki.css"><link rel="stylesheet" href="local.css">
+</head>
+<body>
+  <a class="skip-link" href="#local-main">Bỏ qua điều hướng</a>
+  <header class="header"><a class="brand" href="local.html"><span class="brand-mark">H<span>Đ</span></span><span>HỒ SƠ ĐEN<small>KHO TƯ LIỆU CỦA BẠN</small></span></a><div class="header-actions"><a class="text-button" href="index.html">Thư viện mẫu ↗</a><button class="theme-toggle" id="local-theme" aria-pressed="false">◐ <span>Trang giấy</span></button><button class="button-quiet" id="logout" hidden>Đăng xuất</button></div></header>
+  <main id="local-main" class="local-main" tabindex="-1">
+    <div class="local-eyebrow"><span class="eyebrow">LOCAL FIRST / KHO RIÊNG</span><span id="connection-label">Đang khởi động…</span></div>
+    <div id="local-message" class="local-message" role="status" hidden></div>
+    <section id="local-auth" class="local-auth" hidden>
+      <div class="eyebrow">01 / QUYỀN TRUY CẬP</div><h1 id="auth-title">Kho local của bạn.</h1><p id="auth-description"></p>
+      <form id="local-auth-form"><label class="form-label" for="local-username">Tên đăng nhập</label><input id="local-username" class="form-input" required minlength="3" maxlength="40" pattern="[a-zA-Z0-9_.-]+" autocomplete="username">
+        <label class="form-label" for="local-password">Mật khẩu (12–128 ký tự)</label><input id="local-password" type="password" class="form-input" required minlength="12" maxlength="128" autocomplete="current-password">
+        <button id="auth-submit" class="button-primary full" type="submit">Đăng nhập local →</button>
+      </form><p class="fine">Tài khoản này thuộc instance đang chạy. Không dùng OTP demo, không cần tài khoản cộng đồng.</p>
+    </section>
+    <section id="local-unavailable" class="local-auth" hidden><h1>Kho riêng, chạy trên máy bạn.</h1><p>Trang đang mở là bản website tĩnh. Để tạo hồ sơ và lưu tư liệu riêng, chạy server local bằng Node hoặc Docker theo hướng dẫn.</p><code>npm ci<br>npm run build<br>npm run start:local</code><p><a class="source-link" href="https://github.com/phoenixvn/ho-so-den/blob/main/docs/LOCAL_ARCHIVE.md" rel="noreferrer">Hướng dẫn kho local ↗</a></p><p class="fine">Trang này không thử gửi dữ liệu hoặc tìm máy chủ local của bạn.</p></section>
+    <section id="local-workspace" hidden>
+      <div class="local-heading"><div><div class="eyebrow">TỦ HỒ SƠ / CHỈ TRÊN INSTANCE NÀY</div><h1>Kho của tôi<span id="local-count"></span></h1><p>Ghi lại, đối chiếu, giữ quyền kiểm soát.</p></div><button class="button-primary" id="new-record">Tạo hồ sơ <span>＋</span></button></div>
+      <div class="local-toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="local-search" type="search" placeholder="Tìm tên, tóm tắt hoặc chủ đề…" aria-label="Tìm trong kho local"></label><a class="button-quiet" id="contribution-nav" href="#contributions">Đóng góp / Kết nối</a><button class="button-quiet" id="backup-download">Sao lưu hồ sơ ↓</button><button class="button-quiet" id="restore-open">Khôi phục ↑</button></div>
+      <div id="local-list" class="local-list"></div>
+      <div class="local-boundary"><span>SQLITE + Ổ ĐĨA RIÊNG</span><p>Không tự gửi hồ sơ ra ngoài. Đóng góp cần cấu hình máy nhận và xác nhận từng gói. Solana, IPFS và Cryptomus chưa kết nối.</p></div>
+    </section>
+    <section id="local-detail" hidden></section>
+    <section id="contribution-view" hidden></section>
+  </main>
+  <footer><a class="footer-brand" href="local.html">HỒ SƠ ĐEN<span>Private by default. Shared by choice.</span></a><p>Local core alpha · © 2026 Hồ Sơ Đen contributors</p><div class="footer-links"><a href="https://github.com/phoenixvn/ho-so-den" rel="noreferrer">Mã nguồn ↗</a><a href="LICENSE">AGPL-3.0 · Không bảo hành</a></div></footer>
+  <dialog id="local-dialog" aria-labelledby="local-dialog-title"><div class="modal-top"><span class="eyebrow">HỒ SƠ ĐEN / LOCAL</span><button class="close" id="local-dialog-close" aria-label="Đóng">×</button></div><div id="local-dialog-content"></div></dialog>
+  <script src="runtime.js"></script><script src="contribution-ui.js"></script><script src="local.js"></script>
+</body>
+</html>

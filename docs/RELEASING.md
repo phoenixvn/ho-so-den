@@ -2,8 +2,9 @@
 
 ## Scope
 
-Pre-alpha tags identify design-preview releases, not production archive servers.
-Publish the source and a static preview artifact from the same commit.
+Pre-alpha tags identify local-core and design-preview milestones, not production
+community servers. Publish source and static preview artifacts from the same commit;
+the static artifact alone cannot run a local archive backend.
 
 ## Before tagging
 
@@ -16,10 +17,11 @@ Publish the source and a static preview artifact from the same commit.
 
 ## Publish
 
-- Tag the tested commit as `v0.1.0-alpha.2` (or the next version).
+- Tag a tested release commit (next development candidate: `v0.3.0-alpha.1`).
 - `npm run release:pack` produces a static preview `.tar.gz` in `release/`.
 - Create a GitHub **prerelease**, attach the preview archive and point to the source tag.
-- State prominently that OTP, Cryptomus, uploads and blockchain remain demo-only.
+- State prominently that community OTP, Cryptomus and blockchain remain demo-only.
+  Local authentication/uploads are real only when running the local server.
 
 ## GitHub Pages
 
@@ -36,4 +38,6 @@ Never point a static preview deployment at a private archive directory.
 
 Revert the faulty commit in a new commit and let the Pages workflow redeploy.
 Do not rewrite an existing release tag. Publish a follow-up prerelease when needed.
-The current release has no database migrations or payment state to roll back.
+The archive now has schema v2. Back up the full private data directory with
+the server stopped before upgrading; do not deploy older code over a newer schema.
+Static Pages deploys must never include private data or database migrations.

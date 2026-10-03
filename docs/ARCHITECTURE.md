@@ -1,13 +1,25 @@
 # Architecture decision: local-first, opt-in community
 
-Status: **accepted direction, not yet implemented backend**.
+Status: **local core and SQLite community contribution vertical slice implemented; production adapters pending**.
 
 ## Current implementation
 
-Static HTML/CSS/browser JavaScript with fictional fixtures. A small Node HTTP
-server serves a built allowlist of website assets. There is no database, API,
-file ingestion, cryptographic signing or payment processing. The preview is also
-deployable as a static website.
+Two runtime modes share static assets. `scripts/serve.mjs` serves the fictional
+preview. `scripts/local.mjs` adds authenticated `server/local-api.mjs` and the
+SQLite/filesystem store in `server/store.mjs`. The local UI is `local.html`.
+The static runtime stub never probes a visitor's local machine; the local server
+serves a same-origin runtime flag to enable API calls. Private files remain outside
+the web root, are addressed by digest and require authenticated downloads.
+
+Schema v2 stores one administrator, hashed sessions, records, content versions
+and attachments. A serial operation queue makes mutations and archive backups
+consistent within the supported single-process runtime. SQLite transactions
+protect record changes; blob writes are staged before metadata commit. Portable
+restore validates all input before committing into an empty archive. Credentials
+are excluded from portable backups. Schema v2 adds frozen outbox, peer credentials,
+hashed intake keys, private submissions, editorial events and public snapshots.
+Community mode uses the same SQLite engine for the alpha, not PostgreSQL yet.
+See [LOCAL_ARCHIVE.md](LOCAL_ARCHIVE.md) and [COMMUNITY_SETUP.md](COMMUNITY_SETUP.md).
 
 ## Target components
 
@@ -63,5 +75,6 @@ distributed elsewhere. Hashes prove a byte match, not truth of allegations.
 
 Install locally, create a fictional case with an attachment, restart safely,
 send a selected copy to a separate community instance, approve it there and show
-the published link locally without changing the original. Everything beyond the
-preview remains tracked in [ROADMAP.md](../ROADMAP.md).
+the published link locally without changing the original. This flow is implemented
+and tested with two instances. Production PostgreSQL/object storage, OTP/RBAC,
+resumable transport and retention remain tracked in [ROADMAP.md](../ROADMAP.md).

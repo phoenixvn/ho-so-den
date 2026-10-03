@@ -1,0 +1,24 @@
+# Optional, explicit two-instance alpha demo on an isolated Compose network.
+# docker compose -f compose.yaml -f compose.community.yaml up -d --build
+services:
+  archive:
+    environment:
+      HSD_ALLOW_HTTP_PEERS: http://community:8080
+  community:
+    build: .
+    image: ho-so-den:0.3.0-alpha.1
+    environment:
+      HSD_MODE: community
+      HSD_INTAKE_HOSTS: community:8080
+    ports:
+      - "127.0.0.1:${COMMUNITY_PORT:-8099}:8080"
+    volumes:
+      - community-data:/app/data
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 100
+    restart: unless-stopped
+volumes:
+  community-data:

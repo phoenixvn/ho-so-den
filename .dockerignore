@@ -7,6 +7,15 @@
 !article.js
 !styles.css
 !wiki.css
+!local.html
+!local.js
+!local.css
+!runtime.js
+!contribution-ui.js
+!community.html
+!community.js
+!server/
+!server/**
 !LICENSE
 !NOTICE
 !THIRD_PARTY_NOTICES.md

@@ -1,33 +1,41 @@
 # Hồ Sơ Đen
 
-**Thư viện của những dấu vết. Mã nguồn mở. Hướng đến local-first.**
+**Thư viện của những dấu vết. Mã nguồn mở. Local-first.**
 
-[Xem preview](https://phoenixvn.github.io/ho-so-den/) · [English](docs/README.en.md) · [Tự chạy](docs/SELF_HOSTING.md) · [Đóng góp mã nguồn](CONTRIBUTING.md) · [Lộ trình](ROADMAP.md)
+[Preview công khai](https://phoenixvn.github.io/ho-so-den/) · [English](docs/README.en.md) · [Kho local](docs/LOCAL_ARCHIVE.md) · [Hai instance cộng đồng](docs/COMMUNITY_SETUP.md) · [Đóng góp mã nguồn](CONTRIBUTING.md)
 
-> **v0.1.0-alpha.2 — design preview / pre-alpha.** Repo hiện là bản xem thử có thể tự host, không phải hệ thống quản lý hồ sơ hoàn chỉnh. Chưa có database, upload, tài khoản thật, push cộng đồng, thanh toán hoặc blockchain. Mọi hồ sơ, nguồn dẫn và số liệu đều hư cấu. Đọc [đối chiếu yêu cầu](docs/REQUIREMENTS.md) trước khi đánh giá khả năng triển khai.
+**Tiếp quản dự án / AI coding:** bắt đầu tại [AGENTS.md](AGENTS.md), đọc
+[sổ tiến độ đầy đủ](docs/PROJECT_STATUS.md), [quy trình phát triển](docs/DEVELOPMENT_WORKFLOW.md)
+và [vòng đời sản phẩm](docs/PRODUCT_LIFECYCLE.md).
 
-## Tầm nhìn
+> **0.3.0-alpha.1 — đóng góp cộng đồng, bản phát triển.** Đã có kho local, gói gửi
+> chọn lọc và instance cộng đồng tiếp nhận riêng, duyệt rồi xuất bản. Cả hai đang
+> dùng SQLite và một quản trị viên mỗi instance. Chưa có PostgreSQL, OTP email
+> nhiều người dùng, upload tiếp tục, thanh toán hoặc Web3. GitHub Pages vẫn chỉ
+> chạy preview tĩnh. Xem [đối chiếu yêu cầu](docs/REQUIREMENTS.md).
 
-![Trang hồ sơ minh họa với theme Trang giấy](docs/assets/preview-paper.png)
+![Trang đọc hồ sơ minh họa](docs/assets/preview-paper.png)
 
-[Xem theme Mực đêm](docs/assets/preview-ink.png)
+## Ba chế độ
 
-Bạn cài Hồ Sơ Đen trên máy tính, NAS hoặc VPS; lưu và quản lý tư liệu của mình. Khi muốn đóng góp, bạn chọn một phiên bản và các tệp được phép công bố để gửi **một bản sao** lên máy chủ cộng đồng. Máy chủ tiếp nhận riêng, kiểm tra và biên tập trước khi xuất bản. Bản local không bị ghi đè bởi bản cộng đồng.
+**Kho local** (`npm start`): chạy trên máy tính hoặc server của bạn. Tài khoản,
+hồ sơ và tệp nằm trong thư mục dữ liệu riêng, ngoài web root. Không cần tài khoản
+cộng đồng hay ví. Dữ liệu không tự gửi ra ngoài.
 
-Đây là **kiến trúc mục tiêu**. Các khả năng lưu kho local và gửi đóng góp chưa có trong bản phát hành này.
+**Preview** (`npm run start:preview` hoặc GitHub Pages): sáu hồ sơ hư cấu, hai theme,
+nguồn dẫn, lịch sử và các luồng demo. OTP `123456` và Cryptomus chỉ là mô phỏng,
+không đăng nhập được vào kho local.
 
-## Hiện có
+Người dùng chọn một phiên bản và các tệp để gửi **một bản sao**: xem trước → xác nhận
+gửi → tiếp nhận riêng → duyệt → xuất bản bằng thao tác riêng. Community edits không
+ghi đè bản local. Trạng thái chỉ được cập nhật khi người dùng yêu cầu.
 
-- Giao diện wiki ba cột, hai theme **Trang giấy / Mực đêm**.
-- Sáu hồ sơ hư cấu; tìm kiếm tiếng Việt có/không dấu, lọc và sắp xếp.
-- Trang đọc, chú thích nguồn, lịch sử mẫu, ghi chú trong phiên và màn hình xác minh mẫu.
-- Luồng OTP email demo (`123456`) và checkout Cryptomus demo; không gửi dữ liệu.
-- Server preview Node.js, Docker Compose, health check và font phục vụ tại chỗ.
-- Kiểm thử HTTP, trình duyệt và workflow CI; cấu hình publish GitHub Pages.
+**Community** (`HSD_MODE=community`): cấp/thu hồi khóa đóng góp, hàng đợi riêng,
+chỉnh tiêu đề/nội dung và chọn tệp công khai; yêu cầu bổ sung, từ chối hoặc rút lại.
+`community.html` phục vụ bản đã công bố mà không yêu cầu đăng nhập. Chưa có tự động
+quét mã độc hoặc xác minh nội dung.
 
-Không có analytics, tracking pixel, font CDN hoặc kết nối cộng đồng tự động. Font và dependency cần Internet khi cài/build lần đầu; sau đó preview chạy mà không cần dịch vụ Internet ngoài. Xem [quyền riêng tư](docs/PRIVACY.md).
-
-## Chạy nhanh bằng Docker
+## Chạy kho local bằng Docker
 
 Yêu cầu Git, Docker Engine/Desktop đang chạy và Docker Compose v2.
 
@@ -37,13 +45,17 @@ cd ho-so-den
 docker compose up -d --build
 ```
 
-Mở **http://localhost:8080**. Cấu hình mặc định chỉ bind vào loopback, không mở dịch vụ ra mạng LAN. Dừng bằng `docker compose down`.
+Mở **http://localhost:8080** và tạo quản trị viên đầu tiên. Dữ liệu được giữ trong
+named volume `archive-data`. Port chỉ bind loopback. Nếu 8080 đang dùng, đặt
+`PREVIEW_PORT` sang cổng khác; ví dụ PowerShell: `$env:PREVIEW_PORT = '8098'`.
 
-**Đây là tự host bản preview.** Không có volume hồ sơ hoặc chức năng lưu tài liệu riêng. Không mount dữ liệu cá nhân vào thư mục website.
+`docker compose down` giữ dữ liệu. **`docker compose down -v` xóa volume và dữ liệu.**
+Xem [hướng dẫn local và backup](docs/LOCAL_ARCHIVE.md) trước khi quản lý volume.
 
 ## Chạy bằng Node.js
 
-Node.js 22 trở lên; Node.js 24 LTS được khuyến nghị.
+Node.js **22.18+**, khuyến nghị **24 LTS**. Dùng `node:sqlite` tích hợp; Node 22 có
+thể in cảnh báo experimental cho module này.
 
 ```sh
 npm ci
@@ -51,7 +63,46 @@ npm run build
 npm start
 ```
 
-Mở **http://127.0.0.1:8080**. `npm run dev` build rồi khởi chạy server; chưa có hot reload. Sau khi sửa frontend, chạy lại `npm run build` và refresh trình duyệt.
+Mở **http://127.0.0.1:8080**. Dữ liệu mặc định tại `data/`, được loại khỏi Git.
+`HSD_DATA_DIR` chọn thư mục khác, bắt buộc ngoài `dist/`. Không có mật khẩu mặc định.
+`npm run dev` build rồi chạy local server, chưa có hot reload.
+
+## Tính năng local đã có
+
+- Tạo quản trị viên một lần; password hash scrypt; session HttpOnly, SameSite và CSRF.
+- Tạo/sửa/xóa hồ sơ, chủ đề, tóm tắt, nội dung văn bản thuần, nguồn dẫn.
+- Tìm theo tên, tóm tắt, chủ đề; lịch sử snapshot và chống ghi đè phiên bản cũ.
+- Upload/download riêng, SHA-256, tên lưu nội bộ tách khỏi tên tệp người dùng.
+- SQLite migrations, WAL, dữ liệu tồn tại sau restart.
+- Export `.hsd.json`: hồ sơ, nguồn, lịch sử và tệp hiện tại; restore có kiểm tra hash
+  vào kho trống, giữ tài khoản quản trị của instance đích.
+- Docker non-root, data volume; font tại chỗ và không analytics mặc định.
+
+**Giới hạn alpha:** một quản trị viên, một process/instance; mỗi tệp tối đa 25 MiB;
+backup trình duyệt tối đa 100 MiB JSON / 60 MiB tư liệu / 10.000 mục mỗi loại. Backup
+không mã hóa, không chứa tài khoản/session. Chưa quét mã độc, phát video, OCR hoặc
+khôi phục tệp đã xóa từ lịch sử. Với kho lớn, sao lưu toàn thư mục data khi server dừng.
+
+## Thử đóng góp giữa hai instance
+
+```sh
+docker compose -f compose.yaml -f compose.community.yaml up -d --build
+```
+
+- Local: http://localhost:8080 — tạo quản trị viên riêng.
+- Community: http://localhost:8099/local.html — tạo quản trị viên khác, mở **Bàn biên tập**.
+- Community cấp một khóa; local thêm kết nối origin `http://community:8080`,
+  origin công bố `http://localhost:8099` và khóa đó.
+- Mở hồ sơ local → **Đóng góp** → chọn tệp/nội dung → xem trước → xác nhận gửi.
+- Community duyệt, sau đó xác nhận **Xuất bản công khai**. Local bấm cập nhật trạng thái.
+
+HTTP được bật rõ ràng trong Docker network demo; dùng HTTPS cho Internet.
+[Hướng dẫn đầy đủ](docs/COMMUNITY_SETUP.md).
+
+**Giới hạn đóng góp:** 20 MiB tư liệu/50 tệp/gói, request JSON 32 MiB; mỗi outbox
+và intake giữ tối đa 256 MiB payload, 50 gói/khóa nhận. Retry nguyên gói có idempotency,
+chưa có upload tiếp tục theo chunk. Khóa nằm trong database riêng của bên gửi;
+bên nhận lưu hash. Chưa có chính sách tự xóa/retention intake.
 
 ## Kiểm thử
 
@@ -60,47 +111,44 @@ npm run check
 npm test
 npx playwright install chromium
 npm run test:e2e
+npm run test:docker
+npm run test:docker:community
 ```
 
-Trên Linux có thể dùng `npx playwright install --with-deps chromium`. Cấu hình test tự khởi động server trên `127.0.0.1:4173`. Xem [hướng dẫn phát triển](CONTRIBUTING.md).
+Test bao gồm auth/CSRF, revision conflict, private files, restart persistence,
+backup/restore và backup hỏng; UI đi từ tạo quản trị viên đến phục hồi vào instance
+khác. Docker smoke test tạo một project/volume test riêng, kiểm tra dữ liệu qua
+restart rồi xóa project test đó. Trên Linux dùng `npx playwright install --with-deps chromium` nếu cần.
 
-## Hướng kiến trúc
-
-- **Local instance:** Node.js, SQLite và filesystem; đăng nhập quản trị local, hoạt động độc lập.
-- **Community instance:** PostgreSQL, object storage, OTP email, hàng đợi duyệt đóng góp.
-- **Xuất bản:** IPFS cho tư liệu đã duyệt; Solana/Rust/Anchor cho dấu vết phiên bản.
-- **Tài trợ:** chỉ Cryptomus; coin/mạng thanh toán độc lập với Solana.
-- **Quyền quyết định:** người dùng chọn từng gói gửi; không tự scan hoặc đồng bộ kho local.
-
-Chi tiết trong [kiến trúc](docs/ARCHITECTURE.md) và [giao thức đóng góp dự kiến](docs/CONTRIBUTION_PROTOCOL.md). Không có chương trình Solana hoặc endpoint đóng góp hoạt động trong release này.
-
-## Cấu trúc repo
+## Cấu trúc
 
 ```text
-index.html, app.js, article.js     Giao diện và dữ liệu hư cấu
-styles.css, wiki.css              Hai theme đọc
-scripts/                         Build, server, đóng gói release
-tests/                           HTTP và browser tests
-docs/                            Kiến trúc, self-host, privacy, yêu cầu
-.github/                         Issue/PR templates, CI, Pages
-Dockerfile, compose.yaml         Chạy preview cục bộ
-LICENSE                          GNU AGPL v3 đầy đủ
+local.html, local.js, local.css    Giao diện kho local
+server/                          SQLite store và API có xác thực
+server/contributions.mjs          Gói gửi, idempotency, tiếp nhận và xuất bản
+contribution-ui.js                Giao diện gửi và bàn biên tập
+community.html, community.js      Trang công bố công khai
+scripts/local.mjs                Server local
+scripts/serve.mjs                Server preview tĩnh
+index.html, app.js, article.js    Preview hư cấu
+scripts/build.mjs                Chỉ đưa asset web vào dist/
+tests/                           HTTP, SQLite, browser tests
+docs/                            Hướng dẫn, kiến trúc và yêu cầu
+Dockerfile, compose.yaml         Local server và persistent volume
 ```
 
-`dist/`, `release/`, dependency và kết quả test được tạo cục bộ, không commit. Chỉ `dist/` được đưa lên hosting preview.
+Không commit dữ liệu cá nhân, `data/`, `dist/`, dependency hoặc kết quả test. Cài/build
+lần đầu cần npm/Docker registry; runtime chỉ gọi peer khi người dùng gửi/cập nhật trạng thái. Quyền riêng tư
+và lưu trữ: [PRIVACY](docs/PRIVACY.md).
 
-## Tham gia cộng đồng
+## Cộng đồng và giấy phép
 
-- Báo lỗi và đề xuất qua [Issues](https://github.com/phoenixvn/ho-so-den/issues).
-- Thảo luận kiến trúc qua [Discussions](https://github.com/phoenixvn/ho-so-den/discussions).
-- Đọc [CONTRIBUTING](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), [Governance](GOVERNANCE.md).
-- Vấn đề bảo mật: [SECURITY.md](SECURITY.md); không đăng dữ liệu nhạy cảm vào issue công khai.
-- GitHub Issues/PRs là nơi phát triển phần mềm, **không phải nơi gửi hồ sơ vụ việc thật**.
+[Issues](https://github.com/phoenixvn/ho-so-den/issues) · [Discussions](https://github.com/phoenixvn/ho-so-den/discussions) · [CONTRIBUTING](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Governance](GOVERNANCE.md) · [Security](SECURITY.md)
 
-## Giấy phép
+GitHub là nơi phát triển phần mềm, không phải nơi gửi hồ sơ vụ việc thật.
 
-Copyright © 2026 Hồ Sơ Đen contributors. Mã nguồn, tài liệu do dự án viết và fixture hư cấu được phát hành theo **GNU AGPL-3.0-only**, không có bảo hành. Toàn văn: [LICENSE](LICENSE).
-
-Bạn được phép sử dụng, sửa đổi và phân phối theo giấy phép. Khi vận hành phiên bản sửa đổi có người dùng tương tác qua mạng, thực hiện nghĩa vụ cung cấp Corresponding Source theo điều 13. Khi fork và triển khai, cập nhật liên kết **Mã nguồn** trong giao diện tới mã của đúng phiên bản bạn đang chạy.
-
-Font có giấy phép **SIL OFL-1.1**, tách biệt với AGPL; xem [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md). Giấy phép phần mềm không tự áp dụng cho ảnh/video/hồ sơ của người dùng và không cấp quyền ngụ ý được dự án bảo trợ; xem [NOTICE](NOTICE) và [chính sách tên gọi](docs/TRADEMARKS.md).
+Copyright © 2026 Hồ Sơ Đen contributors. Mã nguồn, tài liệu gốc và fixture hư cấu:
+**AGPL-3.0-only**, không bảo hành. [LICENSE](LICENSE) chứa toàn văn; khi vận hành bản
+sửa đổi qua mạng, cung cấp Corresponding Source theo điều 13 và cập nhật source link.
+Font giữ **OFL-1.1**: [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md). Giấy phép phần mềm
+không tự áp dụng cho hồ sơ riêng của người dùng. Xem [NOTICE](NOTICE).

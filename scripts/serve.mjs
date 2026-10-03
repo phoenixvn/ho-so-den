@@ -9,10 +9,10 @@ const defaultRoot = fileURLToPath(new URL('../dist/', import.meta.url));
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8', '.md': 'text/plain; charset=utf-8' };
 const csp = "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'";
 
-export async function createPreviewServer({ root = defaultRoot } = {}) {
+export async function createPreviewServer({ root = defaultRoot, localMode = false, runtimeMode = 'local', handleRequest } = {}) {
   const publicRoot = await realpath(root);
   return createServer(async (request, response) => {
-    response.setHeader('Content-Security-Policy', csp);
+    response.setHeader('Content-Security-Policy', localMode ? csp.replace("connect-src 'none'", "connect-src 'self'") : csp);
     response.setHeader('X-Content-Type-Options', 'nosniff');
     response.setHeader('Referrer-Policy', 'no-referrer');
     response.setHeader('X-Frame-Options', 'DENY');
@@ -23,6 +23,7 @@ export async function createPreviewServer({ root = defaultRoot } = {}) {
       response.setHeader('Content-Type', type);
       response.end(request.method === 'HEAD' ? undefined : body);
     };
+    if (handleRequest && await handleRequest(request, response)) return;
     if (!['GET', 'HEAD'].includes(request.method)) {
       response.setHeader('Allow', 'GET, HEAD');
       send(405, 'This preview does not accept submissions.');
@@ -34,8 +35,9 @@ export async function createPreviewServer({ root = defaultRoot } = {}) {
     if (!path.startsWith('/') || /[\\\0]/.test(path) || path.split('/').some(part => part.startsWith('.'))) {
       send(404, 'Not found.'); return;
     }
-    if (path === '/healthz') { send(200, '{"status":"ok","mode":"design-preview"}', 'application/json'); return; }
-    if (path === '/') path = '/index.html';
+    if (path === '/healthz') { send(200, JSON.stringify({ status: 'ok', mode: localMode ? runtimeMode : 'design-preview' }), 'application/json'); return; }
+    if (path === '/runtime.js' && localMode) { send(200, 'window.HSD_LOCAL = true;', 'text/javascript; charset=utf-8'); return; }
+    if (path === '/') path = localMode ? '/local.html' : '/index.html';
     try {
       const fullPath = await realpath(resolve(publicRoot, `.${path}`));
       const rel = relative(publicRoot, fullPath);

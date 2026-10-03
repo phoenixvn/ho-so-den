@@ -1,48 +1,78 @@
-# Community contribution protocol — design draft
+# Contribution protocol v1 — implemented alpha
 
-**Not implemented. No endpoint described here is currently available.**
+Receiver requires `HSD_MODE=community`. Instances have independent SQLite stores
+and admin sessions. This is a bounded JSON package protocol, not resumable federation.
 
-## Submission model
+## Pairing
 
-One submission references a local case version and contains a selected public
-copy. A versioned manifest is expected to include a random submission ID, schema
-version, case content, source references, selected attachments (size, media type,
-digest), per-file publication rights and contributor attribution preferences.
+Admin `POST /api/community/keys` returns a random 32-byte bearer key once. Receiver
+stores its SHA-256 hash and can revoke it. Sender explicitly saves a peer origin,
+optional browser-facing public origin and plaintext key in its private database.
+Saving a connector makes no network request. Portable archive backups exclude keys.
 
-Do not include absolute local paths, machine usernames, unpublished filenames,
-unselected attachments, private notes, credentials or a complete archive inventory.
+## Package
 
-## Proposed flow
+`POST /api/outbox/prepare` selects a current record revision, optional body/sources
+and chosen attachment IDs belonging to that record. Title, summary and category
+are always included. It creates an immutable local snapshot.
 
-1. Owner selects content and previews the exact package, including redactions.
-2. Owner signs in to the configured community and explicitly confirms sending.
-3. Client creates a submission with an idempotency key and agreed upload limits.
-4. Selected files upload with resumability, digest verification and strict quotas.
-5. Server finalizes into private intake, scans and validates; it is not public.
-6. Reviewer requests changes, rejects or approves a new community version.
-7. Client polls authenticated status and stores the community link separately.
+Normalized serialization order:
 
-Retrying a finalized submission must not create a second publication. A changed
-local version requires a new package. Community modifications produce a linked
-community version; they never silently replace the source local version.
+```text
+format = "ho-so-den.contribution"
+version = 1
+id = random package UUID
+createdAt = package creation time
+sourceRevision = local revision number (no local record ID)
+record = { title, summary, body, category, sources: [{ title, url, note }] }
+files = [{ id: new UUID, name, size, sha256, data: canonical base64 }]
+credit = explicitly chosen public attribution (may be empty)
+rights = contributor's statement of publication rights
+```
 
-## State transitions
+No disk paths, original attachment IDs, admin identity, credentials, other records,
+unselected files or version history are sent. Rights statements remain in private intake.
 
-`draft → uploading → submitted → under_review → changes_requested | rejected | approved`
+`server/contributions.mjs` normalizes known fields, validates strings/URLs/hashes
+and rejects unknown keys. SHA-256 is over UTF-8 `JSON.stringify` of the normalized
+v1 structure, preserving array order. This is not RFC 8785 or a digital signature.
 
-`approved → published → superseded | withdrawn`
+Limits: 20 MiB decoded media, 50 files, 32 MiB wire JSON. Each outbox/intake has a
+256 MiB retained-payload cap; one receiving key can submit 50 packages.
 
-Only the operator's authorized editorial process may publish. Contributors may
-cancel eligible unpublished submissions or request withdrawal; retention rules
-must be explicit before real data is accepted. A status response must not expose
-another contributor's private package or reviewer-only notes.
+## Transport
 
-## Publication outputs
+- `POST /api/outbox/:id/send`: admin session/CSRF, `confirm: true`, previewed hash.
+- Sender posts frozen payload to `POST /api/intake` with bearer auth, no cookies.
+- Idempotency: `(key_id, client_id)` + payload hash. Same content returns the same
+  receipt; different content under the same ID returns 409.
+- Receipt: receiving ID, client ID, hash, state, contributor-visible feedback,
+  timestamp, relative public path only when published.
+- Failures leave delivery unresolved; explicit retry reuses the same package ID.
+- `POST /api/outbox/:id/refresh` explicitly reads `GET /api/intake/:id`; the key
+  can see only its own submissions. No background polling or automatic retries.
+- HTTPS except loopback/explicit private HTTP allowlist. Redirects refused;
+  timeout and response size bounded; receipt shape/hash validated.
 
-Public version ID, source linkage, public file manifest, editorial reason,
-optional IPFS CID and optional Solana transaction reference. Uploading alone
-must never enqueue irreversible public publication.
+## Review and publication
 
-Before implementation, specify canonical serialization/hash algorithms,
-API authentication, request/response schemas, retention, malware handling,
-conflict resolution and export compatibility in a reviewed design proposal.
+Admin session/CSRF endpoints: `GET /api/community/submissions`, `/:id`,
+`/:id/files/:fileId`, and `POST /:id/decision` with optimistic revision checks.
+
+```text
+submitted → approved | changes_requested | rejected
+changes_requested → approved | rejected
+approved → published | changes_requested | rejected
+published → withdrawn
+```
+
+Approval stores an editorial copy and selected file IDs. Publication needs a
+separate confirmation and atomically writes a public snapshot plus status event.
+Public API: `GET /api/publications`, `/:id`, `/:id/files/:fileId`. Only published,
+non-withdrawn snapshots are served; no intake IDs, keys, rights statements or
+unselected file metadata are exposed. Withdrawal gives 404, but cannot recall
+downloaded copies. Original intake remains private.
+
+Next: resumable uploads, retention/purge with idempotency tombstones, key rotation,
+multi-user OTP/RBAC, editing source lists, PostgreSQL/object storage, public
+correction versions and publication provenance integrations.
